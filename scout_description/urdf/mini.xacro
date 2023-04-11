@@ -1,0 +1,272 @@
+<?xml version="1.0"?>
+
+<robot name="scout_mini"
+    xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:arg name="robot_namespace" default="/" />
+    <xacro:arg name="urdf_extras" default="empty.urdf" />
+
+    <xacro:include filename="$(find scout_description)/urdf/scout_mini_wheel_1.xacro" />
+    <xacro:include filename="$(find scout_description)/urdf/scout_mini_wheel_2.xacro" />
+    <xacro:include filename="$(find scout_description)/urdf/scout_mini_wheel_3.xacro" />
+    <xacro:include filename="$(find scout_description)/urdf/scout_mini_wheel_4.xacro" />
+
+    <!-- Variables -->
+    <xacro:property name="M_PI" value="3.14159"/>
+
+    <!-- Vehicle Geometries -->
+    <xacro:property name="base_x_size" value="0.6200000" />
+    <xacro:property name="base_y_size" value="0.585000" />
+    <xacro:property name="base_z_size" value="0.235000" />
+
+    <xacro:property name="wheelbase" value="0.463951"/>
+    <xacro:property name="track" value="0.416503"/>
+    <xacro:property name="wheel_vertical_offset" value="-0.100998" />
+
+<!--    <xacro:property name="track" value="0.3426" />
+    <xacro:property name="wheelbase" value="0.3181"/>
+    <xacro:property name="wheel_vertical_offset" value="-0.160000047342231" />-->
+
+    <xacro:property name="wheel_length" value="0.8e-01" />
+    <xacro:property name="wheel_radius" value="1.600e-01" />
+
+    <!-- Base link -->
+    <link name="base_link">
+        <visual>
+            <origin
+                    xyz="0 0 0.0"
+                    rpy="1.57 0 1.57" />
+            <geometry>
+                <mesh filename="package://scout_description/meshes/scout_mini_base_link2.dae" />
+            </geometry>
+        </visual>
+        <collision>
+            <origin
+                    xyz="0 0 0"
+                    rpy="1.57 0 1.57" />
+          <geometry>
+            <mesh
+              filename="package://scout_description/meshes/scout_mini_base_link2.dae" />
+          </geometry>
+        </collision>
+    </link>
+
+    <!-- <joint name="chassis_link_joint" type="fixed">
+        <origin xyz="0 0 ${wheel_radius - wheel_vertical_offset}" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="chassis_link" />
+    </joint> -->
+
+    <link name="inertial_link">
+        <inertial>
+            <mass value="60" />
+            <origin xyz="0.0 0.0 0.0" />
+            <inertia ixx="2.288641" ixy="0" ixz="0" iyy="5.103976" iyz="0" izz="3.431465" />
+        </inertial>
+    </link>
+
+    <joint name="inertial_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="inertial_link" />
+    </joint>
+
+    <!-- For testing, hang the robot up in the air -->
+    <!-- <link name="world" />
+    <joint name="world_to_base_link=" type="fixed">
+        <origin xyz="0 0 0.5" rpy="0 0 0" />
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint> -->
+
+    <!-- Scout wheel macros -->
+    <!-- wheel labeled from 0 to 3, conter-clockwise, starting from front right wheel -->
+    <!-- motor 1 and 2 (left side) are mechanically installed in a reversed direction -->
+    <xacro:scout_mini_wheel_1 wheel_prefix="front_left">
+    <!--<origin
+            xyz="0 0 0"
+            rpy="0 0 0" />-->
+        <origin xyz="${wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="-1.57 0 0" />
+    </xacro:scout_mini_wheel_1>
+    <xacro:scout_mini_wheel_2 wheel_prefix="rear_left">
+    <!--<origin
+            xyz="0 0 0"
+            rpy="0 0 0" />-->
+        <origin xyz="${-wheelbase/2} ${track/2} ${wheel_vertical_offset}" rpy="-1.57 0 0" />
+    </xacro:scout_mini_wheel_2>
+    <xacro:scout_mini_wheel_3 wheel_prefix="front_right">
+    <!--<origin
+            xyz="0 0 0"
+            rpy="0 0 0" />-->
+        <origin xyz="${wheelbase/2} ${-track/2} ${wheel_vertical_offset+0.001}" rpy="1.57 0 0" />
+    </xacro:scout_mini_wheel_3>
+    <xacro:scout_mini_wheel_4 wheel_prefix="rear_right">
+    <!--<origin
+           xyz="0 0 0"
+           rpy="0 0 0" />-->
+        <origin xyz="${-wheelbase/2} ${-track/2} ${wheel_vertical_offset+0.001}" rpy="1.57 0 0" />
+    </xacro:scout_mini_wheel_4>
+
+    <!-- Additional definitions -->
+    <xacro:include filename="$(arg urdf_extras)" />
+
+    <!-- Gazebo definitions  -->
+    <xacro:include filename="$(find scout_description)/urdf/scout_mini.gazebo" />
+    
+  <xacro:arg name="gpu" default="false"/>
+  <xacro:property name="gpu" value="$(arg gpu)" />
+  <xacro:arg name="organize_cloud" default="false"/>
+  <xacro:property name="organize_cloud" value="$(arg organize_cloud)" />
+  
+  <!-- Velodyne URDF, plugin, etc -->
+  <!-- <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>-->
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <xacro:VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points" organize_cloud="${organize_cloud}" hz="10" samples="440" gpu="${gpu}">
+    <origin xyz="0 0 0.2" rpy="0 0 0" />
+  </xacro:VLP-16>
+  <!--<xacro:property name="M_PI" value="3.1415926535897931" />
+
+    <joint name="velodyne_base_mount_joint" type="fixed">
+      <origin xyz="0 0 0.2"/>
+      <parent link="base_link"/>
+      <child link="velodyne_base_link"/>
+    </joint>
+    
+    <link name="velodyne_base_link">
+      <inertial>
+        <mass value="0.83"/>
+        <origin xyz="0 0 0.03585"/>
+        <inertia ixx="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" ixy="0" ixz="0"
+          iyy="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" iyz="0"
+          izz="${0.5 * 0.83 * (0.0516*0.0516)}"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_base_1.dae" />
+        </geometry>
+      </visual>
+      <visual>
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_base_2.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 0.03585"/>
+        <geometry>
+          <cylinder radius="0.0516" length="0.0717"/>
+        </geometry>
+      </collision>
+    </link>
+  
+    <joint name="velodyne_base_scan_joint" type="fixed" >
+      <origin xyz="0 0 0.0377" rpy="0 0 0" />
+      <parent link="velodyne_base_link" />
+      <child link="velodyne"/>
+    </joint>
+
+    <link name="velodyne">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 -0.0377" />
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <sphere radius="0"/>
+        </geometry>
+      </collision>
+    </link>
+-->
+    <!-- Gazebo requires the velodyne_gazebo_plugins package -->
+   <!-- <gazebo reference="velodyne">
+      <xacro:if value="false">
+        <sensor type="gpu_ray" name="velodyne-VLP16">
+          <pose>0 0 0 0 0 0</pose>
+          <visualize>false</visualize>
+          <update_rate>10</update_rate>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>1875</samples>
+                <resolution>1</resolution>
+                <min_angle>${M_PI}</min_angle>
+                <max_angle>${M_PI}</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>16</samples>
+                <resolution>1</resolution>
+                <min_angle>-${15.0*M_PI/180.0}</min_angle>
+                <max_angle> ${15.0*M_PI/180.0}</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>${0.3}</min>
+              <max>${130.0+1}</max>
+              <resolution>0.001</resolution>
+            </range>
+            <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.0</stddev>
+            </noise>
+          </ray>
+          <plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_velodyne_gpu_laser.so">
+            <topicName>/velodyne_points</topicName>
+            <frameName>velodyne</frameName>
+            <organize_cloud>false</organize_cloud>
+            <min_range>0.9</min_range>
+            <max_range>130.0</max_range>
+            <gaussianNoise>0.008</gaussianNoise>
+          </plugin>
+        </sensor>
+      </xacro:if>
+      <xacro:unless value="false">
+        <sensor type="ray" name="velodyne-VLP16">
+          <pose>0 0 0 0 0 0</pose>
+          <visualize>false</visualize>
+          <update_rate>10</update_rate>
+          <ray>
+            <scan>
+              <horizontal>
+                <samples>1875</samples>
+                <resolution>1</resolution>
+                <min_angle>${M_PI}</min_angle>
+                <max_angle>${M_PI}</max_angle>
+              </horizontal>
+              <vertical>
+                <samples>16</samples>
+                <resolution>1</resolution>
+                <min_angle>-${15.0*M_PI/180.0}</min_angle>
+                <max_angle> ${15.0*M_PI/180.0}</max_angle>
+              </vertical>
+            </scan>
+            <range>
+              <min>0.3</min>
+              <max>131.0</max>
+              <resolution>0.001</resolution>
+            </range>
+            <noise>
+              <type>gaussian</type>
+              <mean>0.0</mean>
+              <stddev>0.0</stddev>
+            </noise>
+          </ray>
+          <plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_velodyne_laser.so">
+            <topicName>/velodyne_points</topicName>
+            <frameName>velodyne</frameName>
+            <organize_cloud>false</organize_cloud>
+            <min_range>0.9</min_range>
+            <max_range>130.0</max_range>
+            <gaussianNoise>0.008</gaussianNoise>
+          </plugin>
+        </sensor>
+      </xacro:unless>
+    </gazebo>-->
+
+</robot>
