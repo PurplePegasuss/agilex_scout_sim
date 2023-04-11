@@ -101,7 +101,11 @@ catkin_init_workspace
 ```
 git clone https://github.com/PurplePegasuss/agilex_scout_sim.git
 ```
+​		Download scout_mini function package
 
+```
+git clone https://github.com/PurplePegasuss/agilex_scout_mini.git
+```
 ​		Enter the scout_ws folder
 
 ```
