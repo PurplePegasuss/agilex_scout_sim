@@ -131,7 +131,7 @@ catkin_make
 roslaunch scout_gazebo_sim scout_mini_playpen.launch
 ```
 
-# Now launch the slam
+#### Now launch the slam
 
 ```
 roslaunch agilex_scout_mini slam_sim.launch
