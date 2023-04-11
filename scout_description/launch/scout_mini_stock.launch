@@ -1,0 +1,11 @@
+
+<launch>
+    <arg name="robot_namespace" default="/"/>
+    <arg name="urdf_extras" default="$(find scout_description)/urdf/empty.urdf"/>
+
+  <arg name="gpu" default="false"/>
+  <arg name="organize_cloud" default="false"/>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find scout_description)/urdf/mini.xacro' organize_cloud:=$(arg organize_cloud) gpu:=$(arg gpu) 
+        robot_namespace:=$(arg robot_namespace)
+        urdf_extras:=$(arg urdf_extras)" />
+</launch>
