@@ -2,6 +2,11 @@
 
 # Scout Simulation Operation Process
 
+### SLAM in Gazebo and Rviz
+<p align = "center">
+  <img src = "clip/Gazebo_sim_edited.gif" height = "240px" style="margin:10px 10px">
+</p>
+
 ## 1.	Introduction of Function Package
 
 ```
