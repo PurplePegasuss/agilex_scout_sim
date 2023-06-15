@@ -65,6 +65,11 @@ sudo apt-get install ros-noetic-joint-state-publisher-gui
 sudo apt-get install ros-noetic-teleop-twist-keyboard 
 ```
 
+​	Download and install ros package containing URDF and meshes describing Velodyne laser scanners.
+
+```
+sudo apt-get install ros-noetic-velodyne-description
+```
 
 
 ## 3.	About Usage
