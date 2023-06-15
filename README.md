@@ -119,7 +119,7 @@ git clone https://github.com/PurplePegasuss/agilex_scout_mini.git
 ​		Enter the scout_ws folder
 
 ```
-cd scout_ws
+cd ..
 ```
 
 ​		Confirm whether the dependency of the function package is installed
