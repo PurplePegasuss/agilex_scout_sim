@@ -71,6 +71,35 @@ sudo apt-get install ros-noetic-teleop-twist-keyboard
 sudo apt-get install ros-noetic-velodyne-description
 ```
 
+ Download and install ros package with Velodyne simulator.
+
+```
+sudo apt-get install ros-noetic-velodyne-simulator
+```
+
+ Download and install ros **gmapping** package for map generation.
+
+```
+sudo apt-get install ros-noetic-gmapping
+```
+
+​	Download and install ros package for transfromation of Pointcloud to laserscan.
+
+```
+sudo apt-get install ros-noetic-pointcloud-to-laserscan
+```
+
+​	Download and install ros package with TEB local planning algorithm.
+
+```
+sudo apt-get install ros-noetic-teb-local-planner
+```
+
+​	Download and install ros package to make the robot move.
+
+```
+sudo apt-get install ros-noetic-move-base
+```
 
 ## 3.	About Usage
 
@@ -127,6 +156,11 @@ cd ..
 rosdep install --from-paths src --ignore-src -r -y 
 ```
 
+​		Initialise the source file
+```
+source devel/setup.bash
+```
+
 ​		Compile
 
 ```
@@ -141,10 +175,10 @@ catkin_make
 roslaunch scout_gazebo_sim scout_mini_playpen.launch
 ```
 
-#### Now launch the slam
+<!-- #### Now launch the slam
 
 ```
 roslaunch agilex_scout_mini slam_sim.launch
-```
+``` -->
 
 
