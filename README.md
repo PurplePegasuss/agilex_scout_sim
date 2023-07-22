@@ -29,156 +29,29 @@
 
 ### Download and install required function package
 
-​	Download and install ros-control function package, ros-control is the robot control middleware provided by ROS
+​	Download and install packages provided by ROS:
 
 ```
-sudo apt-get install ros-noetic-ros-control
-```
-
-​	Download and install ros-controllers function package, ros-controllers are the kinematics plug-in of common models provided by ROS
-
-```
-sudo apt-get install ros-noetic-ros-controllers
-```
-
-​	Download and install gazebo-ros function package, gazebo-ros is the communication interface between gazebo and ROS, and connect the ROS and Gazebo
-
-```
-sudo apt-get install ros-noetic-gazebo-ros
-```
-
-​	Download and install gazebo-ros-control function package, gazebo-ros-control is the communication standard controller between ROS and Gazebo
-
-```
-sudo apt-get install ros-noetic-gazebo-ros-control
-```
-
-​	Download and install joint-state-publisher-gui package.This package is used to visualize the joint control.
-
-```
-sudo apt-get install ros-noetic-joint-state-publisher-gui 
-```
-
-​	Download and install teleop-twist-keyboard function package, telop-twist-keyboard is keyboard control function package, the robot can be controlled to move forward, left, right and backward through "i", "j", "l",and "," on the keyboard
-
-```
-sudo apt-get install ros-noetic-teleop-twist-keyboard 
-```
-
-​	Download and install ros package containing URDF and meshes describing Velodyne laser scanners.
-
-```
-sudo apt-get install ros-noetic-velodyne-description
-```
-
- Download and install ros package with Velodyne simulator.
-
-```
-sudo apt-get install ros-noetic-velodyne-simulator
-```
-
- Download and install ros **gmapping** package for map generation.
-
-```
-sudo apt-get install ros-noetic-gmapping
-```
-
-​	Download and install ros package for transfromation of Pointcloud to laserscan.
-
-```
-sudo apt-get install ros-noetic-pointcloud-to-laserscan
-```
-
-​	Download and install ros package with TEB local planning algorithm.
-
-```
-sudo apt-get install ros-noetic-teb-local-planner
-```
-
-​	Download and install ros package to make the robot move.
-
-```
-sudo apt-get install ros-noetic-move-base
+sudo apt-get install ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-gazebo-ros ros-noetic-gazebo-ros-control ros-noetic-joint-state-publisher-gui ros-noetic-teleop-twist-keyboard ros-noetic-velodyne-description ros-noetic-velodyne-simulator ros-noetic-gmapping ros-noetic-pointcloud-to-laserscan ros-noetic-teb-local-planner ros-noetic-move-base
 ```
 
 ## 3.	About Usage
-
-### 1、1.	Create workspace, download simulation model function package and compile
-
-​		Open a new terminal and create a workspace named scout_ws, enter in the terminal:
-
+If you already have ROS workspace configured, go to the src folder and clone agilex_scout_sim repository content:
 ```
-mkdir scout_ws
-```
-
-​		Enter the scout_ws folder
-
-```
-cd scout_ws
-```
-
-​		Create a folder to store function package named src
-
-```
-mkdir src
-```
-
-​		Enter the src folder
-
-```
-cd src
-```
-
-​		Initialize folder
-
-```
-catkin_init_workspace
-```
-
-​		Download simulation model function package
-
-```
+cd catkin_ws/src
 git clone https://github.com/PurplePegasuss/agilex_scout_sim.git
 ```
-​		Download scout_mini function package
-
-```
-git clone https://github.com/PurplePegasuss/agilex_scout_mini.git
-```
-​		Enter the scout_ws folder
-
+Return to the catkin_ws folder and build the prepared packages:
 ```
 cd ..
-```
-
-​		Confirm whether the dependency of the function package is installed
-```
-rosdep install --from-paths src --ignore-src -r -y 
-```
-
-​		Initialise the source file
-```
-source devel/setup.bash
-```
-
-​		Compile
-
-```
+source /opt/ros/noetic/setup.bash
 catkin_make
 ```
-
-### 2、2.	Start the gazebo simulation environment of scout_mini with velodyne, gmapping, and move_base simulation in rviz and gazebo
-
-​	Start the simulation environment of scout_mini
-
+Source build files:
+```
+source devel/setup.sh
+```
+Launch simulation:
 ```
 roslaunch scout_gazebo_sim scout_mini_playpen.launch
 ```
-
-<!-- #### Now launch the slam
-
-```
-roslaunch agilex_scout_mini slam_sim.launch
-``` -->
-
-
