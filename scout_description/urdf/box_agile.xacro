@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="box_agile">
+
+<xacro:macro name="box_agile">
+    <link name="core_box_base_link">
+        <visual>
+            <origin xyz="0 0 0.0219"
+                    rpy="1.57 0 1.57" />
+            <geometry>
+                <mesh filename="package://scout_description/meshes/box_agile.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </visual>
+        <collision>
+        <origin
+            xyz="0 0 0.0219"
+            rpy="1.57 0 1.57" />
+        <geometry>
+            <mesh
+            filename="package://scout_description/meshes/box_agile.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        </collision>
+    </link>
+
+    <joint name="box_fix_joint" type="fixed">
+        <origin
+            xyz="0 0 0.0219"
+            rpy="0 0 0" />
+        <parent link="base_link"/>
+        <child link="core_box_base_link"/>
+    </joint>
+</xacro:macro>
+
+</robot>
