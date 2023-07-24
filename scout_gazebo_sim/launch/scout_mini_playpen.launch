@@ -2,126 +2,33 @@
 
 <launch>
 
-    <arg name="robot_namespace" default="/"/>
-    <!--<arg name="world_name" default="$(find scout_gazebo_sim)/worlds/model.sdf"/>-->
-    <arg name="world_name" default="$(find scout_gazebo_sim)/worlds/example.world"/>
+  <arg name="robot_namespace" default="/"/>
 
-    <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(arg world_name)"/>
-        <arg name="paused" value="false"/>
-        <arg name="use_sim_time" value="true"/>
-        <arg name="gui" value="true"/>
-        <arg name="headless" value="false"/>
-        <arg name="debug" value="false"/>
-    </include>
+  <arg name="world_name" default="$(find scout_gazebo_sim)/worlds/example.world"/>
 
-    <include file="$(find scout_gazebo_sim)/launch/spawn_scout_mini.launch"></include>
-        
-    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find scout_description)/rviz/model_display.rviz" />
-    <node pkg="tf" type="static_transform_publisher" name="odom_to_base_link" args="0 0 0.03 0 0 0 odom base_link 10" />
-    <node pkg="tf" type="static_transform_publisher" name="base_to_velodyne" args="0 0 0.03 0 0 0 base_link velodyne 10" />
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(arg world_name)"/>
+      <arg name="paused" value="false"/>
+      <arg name="use_sim_time" value="true"/>
+      <arg name="gui" value="true"/>
+      <arg name="headless" value="false"/>
+      <arg name="debug" value="false"/>
+  </include>
 
- <!-- Added the robot pose ekf pkg for testing fusion -->
- <!--   <node pkg="robot_pose_ekf" name="robot_pose_ekf" type="robot_pose_ekf">
-        <param name="odom_frame" value="odom" />
-        <param name="base_frame" value="base_link"/>
-        <remap from="imu_data" to="imu" />
-    </node>
-    -->
+  <include file="$(find scout_gazebo_sim)/launch/spawn_scout_mini.launch"></include>
+      
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find scout_description)/rviz/model_display.rviz" />
+  
+  <node pkg="tf" type="static_transform_publisher" name="odom_to_base_link" args="0 0 0.03 0 0 0 odom base_link 10" />
+  
+  <node pkg="tf" type="static_transform_publisher" name="base_to_velodyne" args="0 0 0.03 0 0 0 base_link velodyne 10" />
   
   <include file="$(find scout_gazebo_sim)/launch/include/filter_points.launch"></include>
 
-  <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
-        <remap from="cloud_in" to="/voxel_grid/output"/>    
-        <remap from="scan" to="front_scan"/>
-        <rosparam>
-            transform_tolerance: 0.01
-            min_height: 0.0
-            max_height: 1.0
+  <include file="$(find scout_gazebo_sim)/launch/include/pc2l.launch"></include>
 
-            angle_min: -3.1416
-            angle_max: 3.1416
-            angle_increment: 0.0087
-            scan_time: 0.05
-            range_min: 0.1
-            use_inf: false
-            concurrency_level: 1
-        </rosparam>
-    </node>
+  <include file="$(find scout_gazebo_sim)/launch/include/gmapping.launch"></include>
 
-  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen">
-
-    <param name="odom_frame" value="odom"/>
-    <param name="base_frame" value="base_link"/>
-    <param name="map_frame" value="map"/>
-
-    <!-- Process 1 out of every this many scans (set it to a higher number to skip more scans)  -->
-    <param name="throttle_scans" value="1"/>
-
-    <param name="map_update_interval" value="1.0"/> <!-- default: 5.0 -->
-
-    <!-- The maximum usable range of the laser. A beam is cropped to this value.  -->
-    <param name="maxUrange" value="20.0"/>
-
-    <!-- The maximum range of the sensor. If regions with no obstacles within the range of the sensor should appear as free space in the map, set maxUrange < maximum range of the real sensor <= maxRange -->
-    <param name="maxRange" value="20.0"/>
-
-    <param name="sigma" value="0.05"/>
-    <param name="kernelSize" value="1"/>
-    <param name="lstep" value="0.05"/>
-    <param name="astep" value="0.05"/>
-    <param name="iterations" value="5"/>
-    <param name="lsigma" value="0.075"/>
-    <param name="ogain" value="3.0"/>
-    <param name="minimumScore" value="0.0"/>
-    <!-- Number of beams to skip in each scan. -->
-    <param name="lskip" value="0"/>
-
-    <param name="srr" value="0.01"/>
-    <param name="srt" value="0.02"/>
-    <param name="str" value="0.01"/>
-    <param name="stt" value="0.02"/>
-
-    <!-- Process a scan each time the robot translates this far  -->
-    <param name="linearUpdate" value="0.1"/>
-
-    <!-- Process a scan each time the robot rotates this far  -->
-    <param name="angularUpdate" value="0.05"/>
-
-    <param name="temporalUpdate" value="0.1"/>
-    <param name="resampleThreshold" value="0.5"/>
-
-    <!-- Number of particles in the filter. default 30        -->
-    <param name="particles" value="10"/>
-    
-    <!-- Initial map size  -->
-    <param name="xmin" value="-10.0"/>
-    <param name="ymin" value="-10.0"/>
-    <param name="xmax" value="10.0"/>
-    <param name="ymax" value="10.0"/>
-
-    <!-- Processing parameters (resolution of the map)  -->
-    <param name="delta" value="0.02"/>
-
-    <param name="llsamplerange" value="0.01"/>
-    <param name="llsamplestep" value="0.01"/>
-    <param name="lasamplerange" value="0.005"/>
-    <param name="lasamplestep" value="0.005"/>
-
-    <remap from="scan" to="front_scan"/>
-  </node>
-
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <rosparam file="$(find scout_control)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find scout_control)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
-
-    <rosparam file="$(find scout_control)/params/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find scout_control)/params/global_costmap_params.yaml" command="load" />
-
-    <rosparam file="$(find scout_control)/params/teb_local_planner_params.yaml" command="load" />
-    
-    <rosparam file="$(find scout_control)/params/move_base_params.yaml" command="load" />
-    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS"/>
-  </node>
+  <include file="$(find scout_gazebo_sim)/launch/include/move_base.launch"></include>
 
 </launch>
