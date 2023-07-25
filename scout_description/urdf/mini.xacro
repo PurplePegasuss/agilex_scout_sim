@@ -36,7 +36,7 @@
         <visual>
             <origin
                     xyz="0 0 0.0"
-                    rpy="1.57 0 1.57" />
+                    rpy="1.57 0 -1.57" />
             <geometry>
                 <mesh filename="package://scout_description/meshes/scout_mini_base_link2.dae" />
             </geometry>
@@ -44,7 +44,7 @@
         <collision>
             <origin
                     xyz="0 0 0"
-                    rpy="1.57 0 1.57" />
+                    rpy="1.57 0 -1.57" />
           <geometry>
             <mesh
               filename="package://scout_description/meshes/scout_mini_base_link2.dae" />
