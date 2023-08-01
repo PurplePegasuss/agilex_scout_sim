@@ -26,6 +26,10 @@
   <run_depend>scout_description</run_depend>
   <run_depend>rostopic</run_depend>
 
-  <export>
+
+  <export>                            
+      <gazebo_ros
+      gazebo_model_path="${prefix}/worlds/models"                                                                            
+      gazebo_resource_path="${prefix}/worlds"/>                    
   </export>
 </package>

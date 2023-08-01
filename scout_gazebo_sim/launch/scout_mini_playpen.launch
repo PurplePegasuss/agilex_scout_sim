@@ -1,18 +1,16 @@
 <?xml version="1.0"?>
 
 <launch>
-
   <arg name="robot_namespace" default="/"/>
-  <arg name="world_name" default="example"/>
-  <arg name="world_path" default="$(find scout_gazebo_sim)/worlds/$(arg world_name).world"/>
+  <arg name="wname" default="bumpy_terrain"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-      <arg name="world_name" value="$(arg world_path)"/>
+      <arg name="world_name" value="$(find scout_gazebo_sim)/worlds/$(arg wname).world"/>
       <arg name="paused" value="false"/>
       <arg name="use_sim_time" value="true"/>
       <arg name="gui" value="true"/>
-      <arg name="headless" value="false"/>
-      <arg name="debug" value="false"/>
+      <arg name="headless" value="false"/> 
+      <arg name="debug" value="true"/>
   </include>
 
   <include file="$(find scout_gazebo_sim)/launch/spawn_scout_mini.launch"></include>
