@@ -12,7 +12,8 @@
   <url type="website">http://ros.org/wiki/scout_gazebo</url>
   <url type="bugtracker">https://github.com/husky/husky_simulator/issues</url>
   <url type="repository">https://github.com/westonrobot/scout_ros</url>
-
+  
+  
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roslaunch</build_depend>
   <build_depend>roscpp</build_depend>

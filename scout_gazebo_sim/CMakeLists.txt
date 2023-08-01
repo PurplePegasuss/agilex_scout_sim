@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
     std_msgs
     sensor_msgs
     geometry_msgs
+    nav_msgs
     tf2 
     tf2_ros
 )
@@ -34,6 +35,12 @@ target_link_libraries(scout_gazebo ${catkin_LIBRARIES})
 
 add_executable(scout_skid_steer_controller src/scout_skid_steer_controller.cpp)
 target_link_libraries(scout_skid_steer_controller scout_gazebo ${catkin_LIBRARIES})
+
+add_library(scout_odom STATIC src/scout_odom.cpp)
+target_link_libraries(scout_odom ${catkin_LIBRARIES})
+
+add_executable(scout_odom_main src/scout_odom_main.cpp)
+target_link_libraries(scout_odom_main scout_odom ${catkin_LIBRARIES})
 
 #############
 ## Install ##

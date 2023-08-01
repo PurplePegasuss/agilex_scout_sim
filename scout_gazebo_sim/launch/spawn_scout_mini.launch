@@ -37,4 +37,6 @@
     <node name="scout_skid_steer_controller" pkg="scout_gazebo_sim" type="scout_skid_steer_controller">
         <param name="robot_namespace" type="string" value="$(arg robot_namespace)" />
     </node>
+		<node name="scout_odom" pkg="scout_gazebo_sim" type="scout_odom_main">
+		</node>
 </launch> 
