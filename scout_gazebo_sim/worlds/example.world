@@ -191,7 +191,7 @@
       <collision name='Wall_28_Collision'>
         <geometry>
           <box>
-            <size>2.5 0.15 2.5</size>
+            <size>3.2 0.15 2.5</size>
           </box>
         </geometry>
         <pose frame=''>0 0 0 0 -0 0</pose>
@@ -200,7 +200,7 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <box>
-            <size>2.5 0.15 2.5</size>
+            <size>3.2 0.15 2.5</size>
           </box>
         </geometry>
         <material>
@@ -214,7 +214,7 @@
           <layer>0</layer>
         </meta>
       </visual>
-      <pose frame=''>-0.220157 -3.74164 0 0 -0 1.5708</pose>
+      <pose frame=''>-0.220157 -3.39164 0 0 -0 1.5708</pose>
     </link>
     <link name='Wall_3'>
       <collision name='Wall_3_Collision'>

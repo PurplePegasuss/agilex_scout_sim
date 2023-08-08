@@ -1,8 +1,8 @@
 map_type: voxel
 
-obstacle_range: 2.5
-raytrace_range: 3.0
-max_obstacle_height: 2.0
+# obstacle_range: 2.5
+# raytrace_range: 3.0
+# max_obstacle_height: 2.0
 origin_z: 0.0
 
 z_resolution: 0.2
@@ -14,7 +14,11 @@ publish_voxel_map: true
 transform_tolerance: 0.3
 meter_scoring: true
 
-footprint: [[-0.3, -0.3], [-0.3, 0.3], [0.3, 0.3], [0.3, -0.3]]
+footprint: [[-0.26, -0.26], [-0.26, 0.26], # bottom_left - top_left
+            [-0.1, 0.26], [-0.1, 0.2], # around top_left wheel
+            [0.1, 0.2], [0.1, 0.26], [0.26, 0.26], # around top_right wheel
+            [0.26, -0.26], [0.1, -0.26], # around botom_right wheel
+            [0.1, -0.2], [-0.1, -0.2], [-0.1, -0.26]] # around botom_left wheel
 footprint_padding: 0.05
 
 
@@ -29,9 +33,9 @@ obstacles_layer:
   scan: {sensor_frame: front_laser, data_type: LaserScan, topic: front/scan, marking: true, clearing: true, min_obstacle_height: -2.0, max_obstacle_height: 2.0, obstacle_range: 2.5, raytrace_range: 3.0}
 
 inflater_layer:
- inflation_radius: 0.4
- cost_scaling_factor: 10.0
- lethal_cost_threshold: 100
+ inflation_radius: 0.1
+ cost_scaling_factor: 2.0
+ lethal_cost_threshold: 50
  
 # social_navigation_layer:
 #  cutoff: 10.0
