@@ -14,11 +14,11 @@ publish_voxel_map: true
 transform_tolerance: 0.3
 meter_scoring: true
 
-footprint: [[-0.26, -0.26], [-0.26, 0.26], # bottom_left - top_left
-            [-0.1, 0.26], [-0.1, 0.2], # around top_left wheel
-            [0.1, 0.2], [0.1, 0.26], [0.26, 0.26], # around top_right wheel
-            [0.26, -0.26], [0.1, -0.26], # around botom_right wheel
-            [0.1, -0.2], [-0.1, -0.2], [-0.1, -0.26]] # around botom_left wheel
+footprint: [[-0.25, -0.25], [-0.25, 0.25], # bottom_left - top_left
+            [-0.1, 0.25], [-0.1, 0.2], # around top_left wheel
+            [0.1, 0.2], [0.1, 0.25], [0.25, 0.25], # around top_right wheel
+            [0.25, -0.25], [0.1, -0.25], # around botom_right wheel
+            [0.1, -0.2], [-0.1, -0.2], [-0.1, -0.25]] # around botom_left wheel
 footprint_padding: 0.05
 
 
