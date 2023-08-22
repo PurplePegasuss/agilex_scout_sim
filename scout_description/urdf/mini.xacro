@@ -301,7 +301,7 @@
 <!-- IMU Joint -->
   <joint name="imu_joint" type="fixed">
     <axis xyz="1 0 0"/> <!-- 0 1 0 -->
-    <origin xyz="0 0 0.28"/>
+    <origin xyz="0 0 0.1"/>
     <parent link="base_link"/>
     <child link="imu_link"/>
   </joint>
