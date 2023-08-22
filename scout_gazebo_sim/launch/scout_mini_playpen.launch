@@ -3,6 +3,7 @@
 <launch>
   <arg name="robot_namespace" default="/"/>
   <arg name="wname" default="bumpy_terrain"/>
+  <arg name="planner" default="teb"/>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
       <arg name="world_name" value="$(find scout_gazebo_sim)/worlds/$(arg wname).world"/>
@@ -27,6 +28,8 @@
 
   <include file="$(find scout_gazebo_sim)/launch/include/gmapping.launch"></include>
 
-  <include file="$(find scout_gazebo_sim)/launch/include/move_base.launch"></include>
+  <include file="$(find scout_gazebo_sim)/launch/include/move_base.launch">
+      <arg name="planner" value="$(arg planner)"/>
+  </include>
 
 </launch>
