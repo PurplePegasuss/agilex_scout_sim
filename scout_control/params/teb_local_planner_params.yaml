@@ -10,6 +10,8 @@ TebLocalPlannerROS:
  global_plan_overwrite_orientation: True
  max_global_plan_lookahead_dist: 3.0
  feasibility_check_no_poses: 5
+ allow_init_with_backwards_motion: True
+ weight_kinematics_forward_drive: 0
     
  # Robot
  max_vel_x: 0.3
@@ -20,10 +22,10 @@ TebLocalPlannerROS:
  min_turning_radius: 0.0
  
  footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
-   type: "line"
-   # radius: 0.2 # for type "circular"
-   line_start: [-0.3, 0.0] # for type "line"
-   line_end: [0.3, 0.0] # for type "line"
+   type: "point"
+#    radius: 0.6 # for type "circular"
+  #  line_start: [-0.3, 0.0] # for type "line"
+  #  line_end: [0.3, 0.0] # for type "line"
    # front_offset: 0.2 # for type "two_circles"
    # front_radius: 0.2 # for type "two_circles"
    # rear_offset: 0.2 # for type "two_circles"
@@ -38,7 +40,7 @@ TebLocalPlannerROS:
  # Obstacles
  min_obstacle_dist: 0.4
  include_costmap_obstacles: True
- costmap_obstacles_behind_robot_dist: 1.0
+ costmap_obstacles_behind_robot_dist: 5.0
  obstacle_poses_affected: 30
  costmap_converter_plugin: ""
  costmap_converter_spin_thread: True
