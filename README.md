@@ -32,7 +32,7 @@
 ​	Download and install packages provided by ROS:
 
 ```
-sudo apt-get install ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-gazebo-ros ros-noetic-gazebo-ros-control ros-noetic-joint-state-publisher-gui ros-noetic-teleop-twist-keyboard ros-noetic-velodyne-description ros-noetic-velodyne-simulator ros-noetic-gmapping ros-noetic-pointcloud-to-laserscan ros-noetic-teb-local-planner ros-noetic-move-base
+sudo apt-get install ros-noetic-ros-control ros-noetic-ros-controllers ros-noetic-gazebo-ros ros-noetic-gazebo-ros-control ros-noetic-joint-state-publisher-gui ros-noetic-teleop-twist-keyboard ros-noetic-velodyne-description ros-noetic-velodyne-simulator ros-noetic-gmapping ros-noetic-pointcloud-to-laserscan ros-noetic-teb-local-planner ros-noetic-dwa-local-planner ros-noetic-move-base
 ```
 
 ## 3.	About Usage
